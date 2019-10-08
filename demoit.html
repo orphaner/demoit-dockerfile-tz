@@ -1,0 +1,188 @@
+
+<h1>Cachez ce Dockerfile que je ne saurais voir</h1>
+
+<img src="/images/logo.png"/>
+
+---
+
+<h1>Docker</h1>
+
+<ul>
+    <li>Virtualisation légère</li>
+    <li>Créer un container à partir d'une image</li>
+    <li>Le container va exécuter un processus unique</li>
+    <li>Le processus sera exécuté avec ses propres librairies système</li>
+</ul>
+
+---
+
+<h1>C'est quoi une image ?</h1>
+
+<ul>
+    <li>overlayfs</li>
+    <li>système de calques</li>
+    <li></li>
+</ul>
+
+---
+
+<h1>Les calques</h1>
+
+<ul>
+    <li>TODO image qui explique tout ça</li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+
+---
+
+<h1>Créer une image #1</h1>
+
+<ul>
+    <li>Un fichier descripteur : le Dockerfile</li>
+    <li>Instructions simples : FROM, RUN, COPY, ...</li>
+</ul>
+
+<img src="/images/09-Dockerfile.png"/>
+
+---
+
+<h1>Créer une image #2</h1>
+
+<ul>
+    <li><pre>docker build -t image:tag .</pre></li>
+</ul>
+
+<img src="/images/10-docker-build.png"/>
+
+---
+
+<h1>#0 - démon docker</h1>
+
+<ul>
+    <li>Le build passe par le démon docker</li>
+    <li>TODO ?</li>
+    <li>Griefs :</li>
+    <ul>
+        <li>Un démon qui sert à tout : le build et le runtime</li>
+    </ul>
+</ul>
+
+---
+
+<h1>#1 - démon docker en root</h1>
+
+<ul>
+    <li>Le démon docker en root</li>
+    <li>Griefs :</li>
+    <ul>
+        <li>Root inutile pour builder une image</li>
+        <li>Root = risque immédiat de sécurité</li>
+    </ul>
+</ul>
+
+---
+
+<h1>#1 - démon docker en root</h1>
+
+<img src="/images/20-got-root-access.png"/>
+
+---
+
+<h1>#2 - Contexte de build</h1>
+
+<ul>
+    <li>La commande docker build envoie tout le contenu du dossier courant au démon</li>
+    <li>Griefs :</li>
+    <ul>
+        <li>Transfert pas instantané</li>
+        <li>Risque d'envoyer inutilement du contenu</li>
+    </ul>
+</ul>
+
+---
+
+<h1>#2 - Contexte de build</h1>
+
+<li>TODO image: Exemple : le contenu d'un dossier node_modules après le build d'une application angular</li>
+
+---
+
+<h1>#3 - .dockerignore file</h1>
+
+<ul>
+    <li>Fonctionnement similaire au .gitignore</li>
+    <li>Permets de filtrer le contenu à envoyer au démon docker</li>
+    <li>Griefs :</li>
+    <ul>
+        <li>Attention aux effets de bords</li>
+        <li>C'est juste une rustine</li>
+    </ul>
+</ul>
+
+---
+
+<h1># - FROM</h1>
+<ul>
+    <li>basé sur l'héritage uniquement</li>
+    <li>"prefer composition over inheritance"</li>
+    <li>ex: image de build mvn + npm</li>
+    <li>Griefs :</li>
+    <ul>
+        <li></li>
+        <li></li>
+    </ul>
+</ul>
+
+---
+
+<h1># - RUN</h1>
+* 1 calque à chaque fois
+
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li>Griefs :</li>
+    <ul>
+        <li></li>
+        <li></li>
+    </ul>
+</ul>
+---
+
+<h1># - COPY vs ADD</h1>
+
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li>Griefs :</li>
+    <ul>
+        <li></li>
+        <li></li>
+    </ul>
+</ul>
+https://nickjanetakis.com/blog/docker-tip-2-the-difference-between-copy-and-add-in-a-dockerile
+
+---
+
+<h1># - ENTRYPOINT / CMD</h1>
+* dualité
+* exec form vs json form
+
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li>Griefs :</li>
+    <ul>
+        <li></li>
+        <li></li>
+    </ul>
+</ul>
+
+---
+
+* Multistage build
