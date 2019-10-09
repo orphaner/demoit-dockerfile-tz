@@ -1,7 +1,7 @@
 
 <h1>Cachez ce Dockerfile que je ne saurais voir</h1>
 
-<img src="/images/logo.png"/>
+<img src="/images/00-sad-docker.png"/>
 
 ---
 
@@ -19,20 +19,30 @@
 <h1>C'est quoi une image ?</h1>
 
 <ul>
-    <li>overlayfs</li>
-    <li>système de calques</li>
-    <li></li>
+    <li>Une succession de calques</li>
+    <li>Image de base : une distribution linux comme debian ou alpine</li>
+    <li>Chaque calque ajoute du contenu par superposition au précédent</li>
+    <li>Chaque calque est immutable</li>
+    <li>Les calques ne sont buildés que si nécessaire</li>
 </ul>
+
+<img src="/images/02-image-layers.png"/>
 
 ---
 
-<h1>Les calques</h1>
+<h1>Un enjeu de taille</h1>
 
 <ul>
-    <li>TODO image qui explique tout ça</li>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>On veut minimiser la taille de l'image</li>
+    <li>Pourquoi :</li>
+    <ul>
+        <li>Minimiser le temps de transfert lors du déploiement</li>
+    </ul>
+    <li>Comment :</li>
+    <ul>
+        <li>Utiliser une image de base "slim" : debian-slim par ex.</li>
+        <li>Ne mettre que du contenu utile dans les calques</li>
+    </ul>
 </ul>
 
 ---
@@ -42,6 +52,7 @@
 <ul>
     <li>Un fichier descripteur : le Dockerfile</li>
     <li>Instructions simples : FROM, RUN, COPY, ...</li>
+    <li>Chaque instruction crée un nouveau calque</li>
 </ul>
 
 <img src="/images/09-Dockerfile.png"/>
@@ -58,14 +69,18 @@
 
 ---
 
+<img src="/images/05-stop-dreaming.jpeg"/>
+
+---
+
 <h1>#0 - démon docker</h1>
 
 <ul>
     <li>Le build passe par le démon docker</li>
-    <li>TODO ?</li>
+    <li>Un démon qui sert à tout : le build et le runtime</li>
     <li>Griefs :</li>
     <ul>
-        <li>Un démon qui sert à tout : le build et le runtime</li>
+        <li>Un démon qui sert à tout</li>
     </ul>
 </ul>
 
@@ -74,7 +89,7 @@
 <h1>#1 - démon docker en root</h1>
 
 <ul>
-    <li>Le démon docker en root</li>
+    <li>Le démon docker tourne en root</li>
     <li>Griefs :</li>
     <ul>
         <li>Root inutile pour builder une image</li>
@@ -93,7 +108,7 @@
 <h1>#2 - Contexte de build</h1>
 
 <ul>
-    <li>La commande docker build envoie tout le contenu du dossier courant au démon</li>
+    <li>Le contenu du dossier courant est envoyé au démon</li>
     <li>Griefs :</li>
     <ul>
         <li>Transfert pas instantané</li>
@@ -105,7 +120,17 @@
 
 <h1>#2 - Contexte de build</h1>
 
-<li>TODO image: Exemple : le contenu d'un dossier node_modules après le build d'une application angular</li>
+<ul>
+    <li>Exemple : build d'une application angular</li>
+    <li>Seul le dossier dist/ sera dans l'image</li>
+</ul>
+
+<img src="/images/30-node_modules-example.png"/>
+
+<p></p>
+<video autoplay>
+    <source src="/images/send-context.mp4" type="video/mp4">
+</video>
 
 ---
 
