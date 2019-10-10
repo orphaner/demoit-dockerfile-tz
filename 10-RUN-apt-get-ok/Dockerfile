@@ -1,8 +1,8 @@
 FROM debian:stable
 
-RUN apt update
-RUN apt install -y nginx
-RUN apt-get clean
+RUN apt update && \
+    apt install -y nginx && \
+    apt-get clean
 
 COPY index.html /var/www/html/
 
