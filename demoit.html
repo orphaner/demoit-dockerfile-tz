@@ -4,7 +4,7 @@
 
 ---
 
-<h1>Docker</h1>
+<h1 class="happy">Docker</h1>
 
 <ul>
     <li>Virtualisation légère</li>
@@ -18,31 +18,30 @@
 <h1>C'est quoi une image ?</h1>
 
 <ul>
-    <li>Une succession de calques</li>
     <li>Image de base : une distribution linux comme debian ou alpine</li>
+    <li>Une succession de calques</li>
     <li>Chaque calque ajoute du contenu par superposition au précédent</li>
     <li>Chaque calque est immutable</li>
-    <li>Les calques ne sont buildés que si nécessaire</li>
 </ul>
 
 <img src="/images/02-image-layers.png"/>
 
----
+<!-- -&#45;&#45;-->
 
-<h1>Un enjeu de taille</h1>
+<!--<h1>Un enjeu de taille</h1>-->
 
-<ul>
-    <li>On veut minimiser la taille de l'image</li>
-    <li>Pourquoi :</li>
-    <ul>
-        <li>Minimiser le temps de transfert lors du déploiement</li>
-    </ul>
-    <li>Comment :</li>
-    <ul>
-        <li>Utiliser une image de base "slim" : debian-slim par ex.</li>
-        <li>Ne mettre que du contenu utile dans les calques</li>
-    </ul>
-</ul>
+<!--<ul>-->
+<!--    <li>On veut minimiser la taille de l'image</li>-->
+<!--    <li>Pourquoi ?</li>-->
+<!--    <ul>-->
+<!--        <li>Minimiser le temps de transfert lors du déploiement</li>-->
+<!--    </ul>-->
+<!--    <li>Comment ?</li>-->
+<!--    <ul>-->
+<!--        <li>Utiliser une image de base "slim" : debian-slim par ex.</li>-->
+<!--        <li>Ne mettre que du contenu utile dans les calques</li>-->
+<!--    </ul>-->
+<!--</ul>-->
 
 ---
 
@@ -50,7 +49,9 @@
 
 <ul>
     <li>Un fichier descripteur : le Dockerfile</li>
-    <li>Instructions simples : FROM, RUN, COPY, ...</li>
+    <li>Instructions simples : <span class="pre">FROM</span>, <span class="pre">RUN</span>, <span
+            class="pre">COPY</span>, ...
+    </li>
     <li>Chaque instruction crée un nouveau calque</li>
 </ul>
 
@@ -62,7 +63,7 @@
 
 <ul>
     <li>
-        <pre>docker build -t image:tag .</pre>
+        <span class="pre">docker build -t image:tag .</span>
     </li>
 </ul>
 
@@ -123,7 +124,7 @@
 
 <ul>
     <li>Exemple : build d'une application angular</li>
-    <li>Seul le dossier dist/ sera dans l'image</li>
+    <li>Seul le dossier <span class="pre">dist/</span> sera dans l'image</li>
 </ul>
 
 <img src="/images/30-node_modules-example.png"/>
@@ -154,7 +155,7 @@
 <ul>
     <li>Chaque instruction du Dockerfile crée un nouveau calque</li>
     <li>Chaque calque est mis en cache et n'est rebuildé que si nécessaire</li>
-    <li>Griefs : </li>
+    <li>Griefs :</li>
     <ul>
         <li>Attention à l'ordre des calques</li>
     </ul>
@@ -192,6 +193,7 @@
     <li>1 RUN = 1 calque</li>
     <li>Griefs :</li>
     <ul>
+        <li>Pas de maîtrise sur la création des calques</li>
         <li>Attention aux fichiers supprimés</li>
         <li>La bonne pratique</li>
     </ul>
@@ -217,27 +219,31 @@
 
 <h1>#6 - RUN</h1>
 
-<img src="/images/RUN-good-practise-1.png" />
+<img src="/images/RUN-good-practise-1.png"/>
 
 
 ---
 
 <h1>#6 - RUN</h1>
 
-<img src="/images/RUN-good-practise-2.png" />
+<img src="/images/RUN-good-practise-2.png"/>
 
 ---
 
 <h1>#7 - COPY vs ADD</h1>
-
 <ul>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li><span class="pre">COPY src dest</span></li>
+    <li><span class="pre">ADD src dest</span></li>
+    <li><span class="pre">COPY</span> : copie un fichier local dans l'image</li>
+    <li><span class="pre">ADD</span> fait la même chose, mais :</li>
+    <ul>
+        <li>src peut être une url</li>
+        <li>dézippe si src est un zip</li>
+    </ul>
     <li>Griefs :</li>
     <ul>
-        <li></li>
-        <li></li>
+        <li>Commandes similaires</li>
+        <li><span class="pre">ADD</span>, encore une rustine ?</li>
     </ul>
 </ul>
 
@@ -248,9 +254,11 @@
 * exec form vs json form
 
 <ul>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>2 formes :</li>
+    <ul>
+        <li>exec form :</li>
+        <li></li>
+    </ul>
     <li>Griefs :</li>
     <ul>
         <li></li>
@@ -270,6 +278,131 @@
 
 <h1>Buildah</h1>
 
+<img src="/images/buildah.png"/>
+
+---
+
+<h1>Buildah</h1>
+
+<ul>
+    <li>https://buildah.io/</li>
+    <li>Outil en ligne de commande pour construire des images OCI</li>
+    <li>Créé par redhat</li>
+    <li>Fait partie de la suite buildah / podman / skopeo :</li>
+    <ul>
+        <li>Vise à remplacer le démon docker</li>
+        <li>ou à le modulariser</li>
+    </ul>
+    <li>Malheureusement :</li>
+    <ul>
+        <li>peu répandu</li>
+        <li>pas (peu ?) de communauté</li>
+    </ul>
+</ul>
+
+---
+
+<h1>Buildah - installation</h1>
+
+<ul>
+    <li>Très bien packagé pour les distributions redhat / fedora / centos / ...</li>
+    <li>Un dépôt PPA pour ubuntu : moins bien packagé</li>
+    <li>Linux uniquement</li>
+</ul>
+
+---
+
+<h1>buildah bud</h1>
+
+<ul>
+    <li>Compatible avec le <span class="pre">Dockerfile</span></li>
+</ul>
+
+<img src="/images/buildah-bud.png"/>
+
+---
+
+<h1>buildah bud vs docker build</h1>
+
+<ul>
+    <li>Pas de démon</li>
+    <li>Rootless</li>
+    <li>Ne crée qu'un seul calque pour toutes les instructions</li>
+</ul>
+
+---
+
+<h1>buildah login / tag / push</h1>
+
+<ul>
+    <li>Commandes similaires à docker</li>
+</ul>
+
+<img src="/images/buildah-tag-push.png"/>
+
+---
+
+<h1>Buildah sans Dockerfile</h1>
+
+<ul>
+    <li>Possible d'utiliser buildah sans <span class="pre">Dockerfile</span></li>
+    <li>Philosophie de build différente :</li>
+    <ul>
+        <li><span class="pre">buildah from</span> : créer un container à partir d'une image de base</li>
+        <li><span class="pre">buildah config</span> : author, workingdir, env, cmd, entrypoint</li>
+        <li><span class="pre">buildah add</span></li>
+        <li><span class="pre">buildah copy</span></li>
+        <li><span class="pre">buildah run</span></li>
+        <li><span class="pre">buildah commit</span> : crée l'image</li>
+    </ul>
+</ul>
+
+---
+
+<h1>buildahfile.sh</h1>
+
+<img src="/images/buildahfile.png"/>
+
+---
+
+<h1>buildahfile.sh</h1>
+
+<img src="/images/buildahfile-build.png"/>
+
+---
+
+<h1>buildah mount</h1>
+
+<img src="/images/buildah-mount.png"/>
+
+---
+
+<h1>Questions ?</h1>
+
+
+
+---
+
+<h1>Buildah - installation ubuntu / debian</h1>
+
+<ul>
+    <li>Ubuntu : https://launchpad.net/~projectatomic/+archive/ubuntu/ppa</li>
+    <li>Debian :</li>
+</ul>
+
+<pre>
+    sudo apt-get install -y uidmap
+    sudo sysctl -w kernel.unprivileged_userns_clone=1
+
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 018BA5AD9DF57A4448F0E6CF8BECF1637AD8C79D
+    sudo echo "deb http://ppa.launchpad.net/projectatomic/ppa/ubuntu bionic main" \
+        > /etc/apt/sources.list.d/projectatomic-ubuntu-ppa.list
+
+    sudo apt install buildah
+    sudo wget https://raw.githubusercontent.com/projectatomic/registries/master/registries.conf \
+        -o /etc/containers/registries.conf
+</pre>
+
 ---
 
 <h1>Références</h1>
@@ -277,4 +410,9 @@
 <ul>
     <li>https://nickjanetakis.com/blog/docker-tip-2-the-difference-between-copy-and-add-in-a-dockerile</li>
     <li>https://openliberty.io/blog/2018/06/29/optimizing-spring-boot-apps-for-docker.html</li>
+    <li>https://github.com/docker-library/php/blob/master/7.3/buster/cli/Dockerfile</li>
+</ul>
+
+<ul>
+    <li>https://www.binarytides.com/add-ubuntu-ppa-repository-to-debian-7-wheezy/</li>
 </ul>
