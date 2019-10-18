@@ -18,10 +18,11 @@
 <h1>C'est quoi une image ?</h1>
 
 <ul>
-    <li>Image de base : une distribution linux comme debian ou alpine</li>
+    <li>Image de base : une distribution linux comme debian ou <strike>alpine</strike></li>
     <li>Une succession de calques</li>
     <li>Chaque calque ajoute du contenu par superposition au précédent</li>
     <li>Chaque calque est immutable</li>
+    <li>Format conforme à la spécification OCI</li>
 </ul>
 
 <img src="/images/02-image-layers.png"/>
@@ -48,7 +49,7 @@
 <h1>Créer une image #1</h1>
 
 <ul>
-    <li>Un fichier descripteur : le Dockerfile</li>
+    <li>Un fichier descripteur : le <span class="pre">Dockerfile</span></li>
     <li>Instructions simples : <span class="pre">FROM</span>, <span class="pre">RUN</span>, <span
             class="pre">COPY</span>, ...
     </li>
@@ -139,7 +140,7 @@
 <h1>#3 - Fichier .dockerignore</h1>
 
 <ul>
-    <li>Fonctionnement similaire au .gitignore</li>
+    <li>Fonctionnement similaire au <span class="pre">.gitignore</span></li>
     <li>Permets de filtrer le contenu à envoyer au démon docker</li>
     <li>Griefs :</li>
     <ul>
@@ -158,6 +159,7 @@
     <li>Griefs :</li>
     <ul>
         <li>Attention à l'ordre des calques</li>
+        <li>Proverbe populaire : "le cache est un cache misère"</li>
     </ul>
 </ul>
 
@@ -174,13 +176,12 @@
 
 <h1>#5 - FROM</h1>
 <ul>
-    <li>basé sur l'héritage uniquement</li>
-    <li>"prefer composition over inheritance"</li>
-    <li>ex: image de build mvn + npm</li>
+    <li>Crée une image à partir d'une autre</li>
+    <li>Basé sur l'héritage</li>
     <li>Griefs :</li>
     <ul>
-        <li></li>
-        <li></li>
+        <li>"prefer composition over inheritance"</li>
+        <li>ex: image de build mvn + npm</li>
     </ul>
 </ul>
 
@@ -249,20 +250,56 @@
 
 ---
 
-<h1>#8 - ENTRYPOINT / CMD</h1>
-* dualité
-* exec form vs json form
+<h1>#8 - CMD</h1>
 
 <ul>
-    <li>2 formes :</li>
+    <li>Définit une commande par défaut à lancer au démarrage du container</li>
+    <li>3 formes :</li>
     <ul>
-        <li>exec form :</li>
-        <li></li>
+        <li><span class="pre">CMD ["executable", "param1", "param2"]</span> : exec form</li>
+        <li><span class="pre">CMD ["param1", "param2"]</span> : paramètres d'un <span class="pre">ENTRYPOINT</span> en exec form</li>
+        <li><span class="pre">CMD command param1 param2</span> : shell form</li>
     </ul>
+    <li>Le shell form démarre un shell :</li>
+    <ul>
+        <li><span class="pre">/bin/sh -c CMD</span></li>
+        <li>L'exécutable n'aura pas le PID 1</li>
+        <li>Et donc ne recevra pas les signaux d'extinction par ex.</li>
+    </ul>
+    <li>L'exec form ne démarre pas de shell :</li>
+    <ul>
+        <li>Pas d'interprétation des variables</li>
+        <li>Pas de <span class="pre">|</span>, <span class="pre">&&</span>, <span class="pre">||</span>, <span class="pre">&gt;</span></li>
+        <li>Pas de <span class="pre">PATH</span> : bien mettre le chemin complet vers l'exécutable</li>
+    </ul>
+</ul>
+
+---
+
+<h1>#8 - ENTRYPOINT</h1>
+
+<ul>
+    <li>Configure un container qui va se comporter comme un exécutable</li>
+    <li>3 formes :</li>
+    <ul>
+        <li><span class="pre">ENTRYPOINT ["executable", "param1", "param2"]</span> : exec form</li>
+        <li><span class="pre">ENTRYPOINT command param1 param2</span> : shell form</li>
+    </ul>
+    <li><span class="pre">CMD</span> est passé en paramètre du <span class="pre">ENTRYPOINT</span> (si exec form)</li>
+    <li><span class="pre">CMD</span> est ignoré si on passe des paramètres de CLI à la création du container</li>
+</ul>
+
+---
+
+<h1>#8 - CMD / ENTRYPOINT</h1>
+
+<ul>
     <li>Griefs :</li>
     <ul>
-        <li></li>
-        <li></li>
+        <li>Pas facile à comprendre, donc difficile à expliquer</li>
+        <li>Plein de subtilités</li>
+        <li>shell form vs json form</li>
+        <li>Syntaxe de tableau json...</li>
     </ul>
 </ul>
 
@@ -315,6 +352,7 @@
 <h1>buildah bud</h1>
 
 <ul>
+    <li><span class="pre">build-using-dockerfile</span> alias <span class="pre">bud</span></li>
     <li>Compatible avec le <span class="pre">Dockerfile</span></li>
 </ul>
 
@@ -371,15 +409,33 @@
 
 ---
 
+<h1>buildahfile.go</h1>
+
+<ul>
+    <li><span class="pre">go get github.com/containers/buildah</span></li>
+</ul>
+
+<img src="/images/buildahfile-go.png"/>
+
+---
+
 <h1>buildah mount</h1>
 
 <img src="/images/buildah-mount.png"/>
 
 ---
 
+<h1>Geetings</h1>
+
+<ul>
+    <li>"Bonjour à tout le monde", Christophe Furmaniak</li>
+</ul>
+
+---
+
 <h1>Questions ?</h1>
 
-
+<img src="/images/questions.png"/>
 
 ---
 
